@@ -1,5 +1,7 @@
 # EncryptFileTransfer (AES Encryption)
 
+Encrypt/Decrypt key is the hash of the Macid of the Server Pc.
+
 FLow of the program
 
 First files are encrypted using the class FileED.
