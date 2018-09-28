@@ -2,7 +2,10 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.SSLServerSocketFactory;
+import java.security.Security;
 import javax.crypto.Cipher;
 
 public class DirectoryRcr {
@@ -13,7 +16,7 @@ public class DirectoryRcr {
     String dirFailedResponse = "Failed";
     String fileHeaderRecvd = "File header received ...Send File";
     String fileReceived = "File Received";
-    Socket socket = null;
+    SSLSocket socket = null;
     OutputStream ioStream = null;
     InputStream inStream = null;
     boolean isLive = false;
@@ -42,9 +45,20 @@ public class DirectoryRcr {
     }
 
     private void acceptConnection() {
+    	 System.setProperty("javax.net.ssl.keyStore","myKeyStore.jks");
+         //specifing the password of the keystore file
+         System.setProperty("javax.net.ssl.keyStorePassword","akashakash");
+         //This optional and it is just to show the dump of the details of the handshake process 
+         System.setProperty("javax.net.debug","all");
         try {
-            ServerSocket server = new ServerSocket(4001);
-            socket = server.accept();
+        	 //SSLServerSocketFactory establishes the ssl context and and creates SSLServerSocket 
+            SSLServerSocketFactory sslServerSocketfactory = (SSLServerSocketFactory)SSLServerSocketFactory.getDefault();
+            //Create SSLServerSocket using SSLServerSocketFactory established ssl context
+            SSLServerSocket sslServerSocket = (SSLServerSocket)sslServerSocketfactory.createServerSocket(4001);
+            System.out.println("Echo Server Started & Ready to accept Client Connection");
+            //Wait for the SSL client to connect to this server
+             socket = (SSLSocket)sslServerSocket.accept();
+            //Create InputStream to recive messages send by the client
             isLive = true;
             ioStream = socket.getOutputStream();
             inStream = socket.getInputStream();
@@ -211,7 +225,7 @@ public class DirectoryRcr {
             //start
         	
         	//foStream.write(FileED.byteProcessor(Cipher.DECRYPT_MODE,key,buff));
-            FileED.fileed(Cipher.DECRYPT_MODE, key, dstFile,dstFile );
+         //   FileED.fileed(Cipher.DECRYPT_MODE, key, dstFile,dstFile );
             
            // FileED.processFile(Cipher.DECRYPT_MODE,key, dstFile,dstFile);
            // new File(destpath+"decrpyted"+dstFile.getName())

@@ -3,11 +3,14 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+import java.security.Security;
 
 import javax.crypto.Cipher;
 
 public class DirectoryTxr {
-    Socket clientSocket = null;
+    SSLSocket clientSocket = null;
     String srcDir = null;
     String dstDir = null;
     byte[] readBuffer = new byte[1024];
@@ -35,7 +38,7 @@ public class DirectoryTxr {
     String key = "780cb10c6c3eddac7e4cf3f5e6b9a7ab";
     //end
 
-    public DirectoryTxr(Socket clientSocket, String srcDir, String dstDir) {
+    public DirectoryTxr(SSLSocket clientSocket, String srcDir, String dstDir) {
 
         try {
             this.clientSocket = clientSocket;
@@ -44,7 +47,7 @@ public class DirectoryTxr {
             isLive = true;
             this.srcDir = srcDir;
             this.dstDir = dstDir;
-            encryptFile(srcDir);
+           // encryptFile(srcDir);
             state = initialState;
             readResponse(); //starting read thread
             sendMessage(request);

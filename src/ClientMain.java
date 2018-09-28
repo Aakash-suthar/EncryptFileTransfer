@@ -3,6 +3,10 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+import java.security.Security;
+
 
 public class ClientMain {
     private DirectoryTxr transmitter = null;
@@ -29,10 +33,21 @@ public class ClientMain {
 
     private void createConnection() {
         Runnable connectRunnable = new Runnable() {
+  
             public void run() {
+              	//specifing the trustStore file which contains the certificate & public of the server
+                System.setProperty("javax.net.ssl.trustStore","myTrustStore.jts");
+                //specifing the password of the trustStore file
+                System.setProperty("javax.net.ssl.trustStorePassword","akashakash");
+                //This optional and it is just to show the dump of the details of the handshake process 
+                System.setProperty("javax.net.debug","all");
                 while (!connectedStatus) {
                     try {
-                        clientSocket = new Socket(ipAddress, 4001);
+                    	//SSLSSocketFactory establishes the ssl context and and creates SSLSocket 
+                        SSLSocketFactory sslsocketfactory = (SSLSocketFactory)SSLSocketFactory.getDefault();
+                        //Create SSLSocket using SSLServerFactory already established ssl context and connect to server
+                        SSLSocket clientSocket = (SSLSocket)sslsocketfactory.createSocket(ipAddress, 4001);
+                        //Create OutputStream to send message to server
                         connectedStatus = true;
                         transmitter = new DirectoryTxr(clientSocket, srcPath, dstPath);
                     } catch (IOException io) {
