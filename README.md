@@ -1,11 +1,10 @@
-# EncryptFileTransfer (AES Encryption)
-
-Encrypt/Decrypt key is the hash of the Macid of the Server Pc.
+# EncryptFileTransfer (SSLSocket Transfer)
 
 FLow of the program
 
-First files are encrypted using the class FileED.
 Files are transfer one by one.
+SSL require password to connect/hanshake with the client then only client can start sending files.
+Client Encryption is done by SSlSocket automatic and decryption too.
 Server recieves the file and decrypt them simultaneously.
 
 
