@@ -35,7 +35,7 @@ public class DirectoryTxr {
     File[] opFileList = null;
     
     //start
-    String key = "780cb10c6c3eddac7e4cf3f5e6b9a7ab";
+    String key = null;
     //end
 
     public DirectoryTxr(SSLSocket clientSocket, String srcDir, String dstDir) {
@@ -47,10 +47,10 @@ public class DirectoryTxr {
             isLive = true;
             this.srcDir = srcDir;
             this.dstDir = dstDir;
-           // encryptFile(srcDir);
+           //encryptFile(srcDir);
             state = initialState;
             readResponse(); //starting read thread
-            sendMessage(request);
+            //sendMessage(request);
             state = permissionReqState;
         } catch (IOException io) {
             io.printStackTrace();
@@ -195,7 +195,14 @@ public class DirectoryTxr {
         try {
             String parsedMessage = new String(data, "UTF-8");
             System.out.println(parsedMessage);
-            setResponse(parsedMessage);
+            if(key==null) {
+            	key=parsedMessage;
+            	System.out.println(key);
+            	encryptFile(srcDir);
+            	sendMessage(request);
+            }
+            else {
+            setResponse(parsedMessage);}
         } catch (UnsupportedEncodingException u) {
             u.printStackTrace();
         }
@@ -207,7 +214,8 @@ public class DirectoryTxr {
             sendDirectoryHeader();
 
 
-        } else if (message.trim().equalsIgnoreCase(dirResponse) && state == dirHeaderSendState) {
+        }
+        else if (message.trim().equalsIgnoreCase(dirResponse) && state == dirHeaderSendState) {
             state = fileHeaderSendState;
             if (LocateDirectory()) {
                 createAndSendHeader();

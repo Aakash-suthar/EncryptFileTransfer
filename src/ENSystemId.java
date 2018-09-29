@@ -85,26 +85,29 @@ public static String getSerialNumber(String drive) {
     }
     return null;
    }
-  public static void main(String[] args){
-    String cpuId = ENSystemId.getMotherboardSN();
-    String sn = ENSystemId.getSerialNumber("C");
-    String sysId=cpuId+sn;
-    String ensysid=ENSystemId.MD5(sysId);
-    System.out.println("Motherboard serial number:"+cpuId);
-    System.out.println("Serial Number of C:"+sn);
-    System.out.println("System Identification number:"+sysId);
-    System.out.println("Encrypted System Identification number:"+ensysid);
-    javax.swing.JOptionPane.showConfirmDialog((java.awt.Component)
-         null, cpuId, "Motherboard serial number",
-         javax.swing.JOptionPane.DEFAULT_OPTION);
-    javax.swing.JOptionPane.showConfirmDialog((java.awt.Component)
-         null, sn, "Serial Number of C:",
-         javax.swing.JOptionPane.DEFAULT_OPTION);
-    javax.swing.JOptionPane.showConfirmDialog((java.awt.Component)
-         null, sysId, "System Identification number:",
-         javax.swing.JOptionPane.DEFAULT_OPTION);
-    javax.swing.JOptionPane.showConfirmDialog((java.awt.Component)
-         null, ensysid, "Encrypted System Identification number:",
-         javax.swing.JOptionPane.DEFAULT_OPTION);
+  public static String getId() {
+	  return ENSystemId.MD5(ENSystemId.getMotherboardSN()+ENSystemId.getSerialNumber("C"));
   }
+//  public static void main(String[] args){
+//    String cpuId = ENSystemId.getMotherboardSN();
+//    String sn = ENSystemId.getSerialNumber("C");
+//    String sysId=cpuId+sn;
+//    String ensysid=ENSystemId.MD5(sysId);
+//    System.out.println("Motherboard serial number:"+cpuId);
+//    System.out.println("Serial Number of C:"+sn);
+//    System.out.println("System Identification number:"+sysId);
+//    System.out.println("Encrypted System Identification number:"+ensysid);
+//    javax.swing.JOptionPane.showConfirmDialog((java.awt.Component)
+//         null, cpuId, "Motherboard serial number",
+//         javax.swing.JOptionPane.DEFAULT_OPTION);
+//    javax.swing.JOptionPane.showConfirmDialog((java.awt.Component)
+//         null, sn, "Serial Number of C:",
+//         javax.swing.JOptionPane.DEFAULT_OPTION);
+//    javax.swing.JOptionPane.showConfirmDialog((java.awt.Component)
+//         null, sysId, "System Identification number:",
+//         javax.swing.JOptionPane.DEFAULT_OPTION);
+//    javax.swing.JOptionPane.showConfirmDialog((java.awt.Component)
+//         null, ensysid, "Encrypted System Identification number:",
+//         javax.swing.JOptionPane.DEFAULT_OPTION);
+//  }
 }

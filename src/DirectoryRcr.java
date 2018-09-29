@@ -37,10 +37,11 @@ public class DirectoryRcr {
     File dstFile = null;
     
   //start
-    String key = "780cb10c6c3eddac7e4cf3f5e6b9a7ab";
+    String key =null;
     //end
 
-    public DirectoryRcr() {
+    public DirectoryRcr(String key1) {
+    	key = key1;
         acceptConnection();
     }
 
@@ -63,6 +64,7 @@ public class DirectoryRcr {
             ioStream = socket.getOutputStream();
             inStream = socket.getInputStream();
             state = initialState;
+            sendResponse(key);
             startReadThread();
 
         } catch (IOException io) {
@@ -118,7 +120,8 @@ public class DirectoryRcr {
                 fileCount--;
                 if (fileCount != 0) {
                     state = fileHeaderWaitState;
-                } else {
+                } 
+                else {
                     System.out.println("Finished");
                     state = finalState;
                     sendResponse("Thanks");
@@ -128,7 +131,9 @@ public class DirectoryRcr {
 
                 System.out.println("Received");
             }
-        } else {
+        }
+       
+        else {
             parseToUTF(buff);
         }
 
@@ -225,7 +230,7 @@ public class DirectoryRcr {
             //start
         	
         	//foStream.write(FileED.byteProcessor(Cipher.DECRYPT_MODE,key,buff));
-         //   FileED.fileed(Cipher.DECRYPT_MODE, key, dstFile,dstFile );
+            FileED.fileed(Cipher.DECRYPT_MODE, key, dstFile,dstFile );
             
            // FileED.processFile(Cipher.DECRYPT_MODE,key, dstFile,dstFile);
            // new File(destpath+"decrpyted"+dstFile.getName())
