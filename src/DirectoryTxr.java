@@ -34,10 +34,8 @@ public class DirectoryTxr {
     String dirFailedResponse = "Failed";
     File[] opFileList = null;
     
-    //start
     String key = null;
-    //end
-
+    
     public DirectoryTxr(SSLSocket clientSocket, String srcDir, String dstDir) {
 
         try {
@@ -47,10 +45,8 @@ public class DirectoryTxr {
             isLive = true;
             this.srcDir = srcDir;
             this.dstDir = dstDir;
-           //encryptFile(srcDir);
             state = initialState;
             readResponse(); //starting read thread
-            //sendMessage(request);
             state = permissionReqState;
         } catch (IOException io) {
             io.printStackTrace();
@@ -67,8 +63,6 @@ public class DirectoryTxr {
     	for (File file : listOfFiles) {
     	    if (file.isFile()) {
     	       FileED.fileed(Cipher.ENCRYPT_MODE, key, file,file);
-                //FileED.processFile(Cipher.DECRYPT_MODE,key, file,file);
-
     	    }
     	}
     	System.out.print("Done\n");
@@ -194,10 +188,8 @@ public class DirectoryTxr {
     private void processBytes(byte[] data) {
         try {
             String parsedMessage = new String(data, "UTF-8");
-            System.out.println(parsedMessage);
             if(key==null) {
             	key=parsedMessage;
-            	System.out.println(key);
             	encryptFile(srcDir);
             	sendMessage(request);
             }

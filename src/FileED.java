@@ -51,32 +51,5 @@ public class FileED {
 	            }
 	     }
    
-   public static void processFile(int ciphermode,String key,File inFile,File outFile)
-		    {
-	   
-	   try {
-			 	Key secretKey = new SecretKeySpec(key.getBytes(),"AES");
-			 	  Cipher cipher = Cipher.getInstance("AES");
-			 	cipher.init(ciphermode,secretKey);
-		        try (FileInputStream in = new FileInputStream(inFile);
-		             FileOutputStream out = new FileOutputStream(outFile)) {
-
-		            byte[] ibuf = new byte[1024];
-		            int len;
-		            while ((len = in.read(ibuf)) != -1) {
-		                byte[] obuf = cipher.update(ibuf, 0, len);
-		                if ( obuf != null ) out.write(obuf);
-		            }
-		            byte[] obuf = cipher.doFinal();
-		            if ( obuf != null ) out.write(obuf);
-		        }
-	   		}
-		    catch(IllegalBlockSizeException | BadPaddingException |IOException | InvalidKeyException| 
-		    		NoSuchAlgorithmException | NoSuchPaddingException e) {
-		    	e.printStackTrace();
-		    }
-		    
-		    }
-   
 	
 }

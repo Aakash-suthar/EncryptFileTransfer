@@ -40,8 +40,8 @@ public class DirectoryRcr {
     String key =null;
     //end
 
-    public DirectoryRcr(String key1) {
-    	key = key1;
+    public DirectoryRcr() {
+    	key =ENSystemId.getId();
         acceptConnection();
     }
 
@@ -142,7 +142,7 @@ public class DirectoryRcr {
     private void parseToUTF(byte[] data) {
         try {
             String parsedMessage = new String(data, "UTF-8");
-            System.out.println(parsedMessage);
+           // System.out.println(parsedMessage);
             setResponse(parsedMessage);
         } catch (UnsupportedEncodingException u) {
             u.printStackTrace();
@@ -228,12 +228,7 @@ public class DirectoryRcr {
             foStream.write(buff);
             
             //start
-        	
-        	//foStream.write(FileED.byteProcessor(Cipher.DECRYPT_MODE,key,buff));
-            FileED.fileed(Cipher.DECRYPT_MODE, key, dstFile,dstFile );
-            
-           // FileED.processFile(Cipher.DECRYPT_MODE,key, dstFile,dstFile);
-           // new File(destpath+"decrpyted"+dstFile.getName())
+        	FileED.fileed(Cipher.DECRYPT_MODE, key, dstFile,dstFile );
             //end
 
         } catch (IOException io) {
