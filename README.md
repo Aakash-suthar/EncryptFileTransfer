@@ -1,4 +1,4 @@
-# EncryptFileTransfer (SSLSocket + MAchineID Authentication Transfer) [JAVA]
+# EncryptFileTransfer (SSLSocket + MachineID Authentication Transfer) [JAVA]
 
 FLow of the program
 
